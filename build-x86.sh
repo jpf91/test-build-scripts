@@ -6,12 +6,15 @@ cd /home/build/share
 
 wget ftp://ftp.gdcproject.org/extra/build_tools.tar.xz
 wget ftp://ftp.gdcproject.org/extra/configs.tar.xz
+wget ftp://ftp.gdcproject.org/extra/patches.tar.xz
 wget ftp://ftp.gdcproject.org/extra/x86_64-unknown-linux-gnu.tar.xz
 
 tar xf build_tools.tar.xz
 tar xf configs.tar.xz
 cd host-toolchains
 tar xf ../x86_64-unknown-linux-gnu.tar.xz
+cd ../cache
+tar xf ../patches.tar.xz
 cd ../
 rm *.xz
 
