@@ -1,3 +1,5 @@
+startpath=$(pwd)
+
 mkdir -p /home/build/share/host-toolchains
 mkdir -p /home/build/share/cache
 cd /home/build/share
@@ -18,6 +20,7 @@ ls -l /home/build/
 export PATH=$PATH:/home/build/share/build_tools
 export PATH=$PATH:/home/build/share/host-toolchains/x86_64-unknown-linux-gnu/xbin
 
-gcc-build-script /home/build/share/configs/sources-6-oldbinutils.json configs/x86_64/linux-ml.json --force-extract --num-cpus=4 --gdc-src=/home/build/gdc-6 --mirrors=configs/mirrors.json '--variable=PKGVERSION:"gdcproject.org 20161218-v2.068.2_gcc6"' --type=cross --target-strip=strip --host-strip=x86_64_host-unknown-linux-gnu-strip --variable=HOST_TOOLPREFIX:x86_64_host-unknown-linux-gnu --host=x86_64-unknown-linux-gnu
+gcc-build-script /home/build/share/configs/sources-6-oldbinutils.json configs/x86_64/linux-ml.json --force-extract --num-cpus=4 --gdc-src=${startpath}/gdc-6 --mirrors=configs/mirrors.json '--variable=PKGVERSION:"gdcproject.org 20161218-v2.068.2_gcc6"' --type=cross --target-strip=strip --host-strip=x86_64_host-unknown-linux-gnu-strip --variable=HOST_TOOLPREFIX:x86_64_host-unknown-linux-gnu --host=x86_64-unknown-linux-gnu
 
 ls -l /home/build/share/result
+mv -v /home/build/share/result* ${startpath]/result/
