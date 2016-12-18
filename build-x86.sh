@@ -25,4 +25,7 @@ export PATH=$PATH:/home/build/share/host-toolchains/x86_64-unknown-linux-gnu/xbi
 
 gcc-build-script /home/build/share/configs/sources-6-oldbinutils.json configs/x86_64/linux-ml.json --force-extract --num-cpus=4 --gdc-src=${startpath}/gdc-6 --mirrors=configs/mirrors.json '--variable=PKGVERSION:"gdcproject.org 20161218-v2.068.2_gcc6"' --type=cross --target-strip=strip --host-strip=x86_64_host-unknown-linux-gnu-strip --variable=HOST_TOOLPREFIX:x86_64_host-unknown-linux-gnu --host=x86_64-unknown-linux-gnu
 
+ls -la ${startpath}
+ls -la ${startpath}/result
+
 mv -v /home/build/share/cache/install/x86_64-unknown-linux-gnu ${startpath}/result/
