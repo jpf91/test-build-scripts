@@ -7,10 +7,10 @@ whoami
 ls -la ${startpath}/buildscripts
 ls -la ${startpath}/buildscripts/bin
 
-ping -c 1 154.16.245.132
-
 cd /home/build
 mount nfs
+
+apt-get update -y && apt-get install -y libatomic
 
 # Setup build system
 mkdir -p ~/.config/
