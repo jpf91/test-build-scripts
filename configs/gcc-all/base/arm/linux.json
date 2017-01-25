@@ -1,0 +1,60 @@
+{
+    "host": "arm-unknown-linux-gnueabi",
+    "target": "arm-unknown-linux-gnueabi",
+    "arch": "arm",
+    "sysroot_prefix": "/usr",
+
+    "constants": {
+        "BUGURL": "--with-bugurl=https://bugzilla.gdcproject.org",
+        "PKGVERSION": "gdcproject.org",
+        "BUILD_TOOLPREFIX": "x86_64_build-unknown-linux-gnu",
+        "BUILD_COMPILER_FLAGS": "",
+        "HOST_TOOLPREFIX": "arm_host-unknown-linux-gnueabihf",
+        "HOST_COMPILER_FLAGS": "-mfloat-abi=soft",
+        "TARGET_TOOLPREFIX": "multi-wrapper arm-unknown-linux-gnueabihf",
+        "TARGET_COMPILER_FLAGS": "-mfloat-abi=soft",
+        "BUILD_TOOLS": "CC_FOR_BUILD='${BUILD_TOOLPREFIX}-gcc ${BUILD_COMPILER_FLAGS}' CXX_FOR_BUILD='${BUILD_TOOLPREFIX}-g++ ${BUILD_COMPILER_FLAGS}' GCC_FOR_BUILD='${BUILD_TOOLPREFIX}-gcc ${BUILD_COMPILER_FLAGS}' GCJ_FOR_BUILD='${BUILD_TOOLPREFIX}-gcj ${BUILD_COMPILER_FLAGS}' GFORTRAN_FOR_BUILD='${BUILD_TOOLPREFIX}-gfortran ${BUILD_COMPILER_FLAGS}' GOC_FOR_BUILD='${BUILD_TOOLPREFIX}-gccgo ${BUILD_COMPILER_FLAGS}' GDC_FOR_BUILD='${BUILD_TOOLPREFIX}-gdc ${BUILD_COMPILER_FLAGS}' AR_FOR_BUILD='${BUILD_TOOLPREFIX}-ar' AS_FOR_BUILD='${BUILD_TOOLPREFIX}-as' DLLTOOL_FOR_BUILD='${BUILD_TOOLPREFIX}-dlltool' LD_FOR_BUILD='${BUILD_TOOLPREFIX}-ld' LIPO_FOR_BUILD='${BUILD_TOOLPREFIX}-lipo' NM_FOR_BUILD='${BUILD_TOOLPREFIX}-nm' OBJCOPY_FOR_BUILD='${BUILD_TOOLPREFIX}-objcopy' OBJDUMP_FOR_BUILD='${BUILD_TOOLPREFIX}-objdump' RANLIB_FOR_BUILD='${BUILD_TOOLPREFIX}-ranlib' READELF_FOR_BUILD='${BUILD_TOOLPREFIX}-readelf' STRIP_FOR_BUILD='${BUILD_TOOLPREFIX}-strip' WINDRES_FOR_BUILD='${BUILD_TOOLPREFIX}-windres' WINDMC_FOR_BUILD='${BUILD_TOOLPREFIX}-windmc'",
+        "HOST_TOOLS": "CC='${HOST_TOOLPREFIX}-gcc ${HOST_COMPILER_FLAGS}' CXX='${HOST_TOOLPREFIX}-g++ ${HOST_COMPILER_FLAGS}' GCC='${HOST_TOOLPREFIX}-gcc ${HOST_COMPILER_FLAGS}' GCJ='${HOST_TOOLPREFIX}-gcj ${HOST_COMPILER_FLAGS}' GFORTRAN='${HOST_TOOLPREFIX}-gfortran ${HOST_COMPILER_FLAGS}' GOC='${HOST_TOOLPREFIX}-gccgo ${HOST_COMPILER_FLAGS}' GDC='${HOST_TOOLPREFIX}-gdc ${HOST_COMPILER_FLAGS}' AR='${HOST_TOOLPREFIX}-ar' AS='${HOST_TOOLPREFIX}-as' DLLTOOL='${HOST_TOOLPREFIX}-dlltool' LD='${HOST_TOOLPREFIX}-ld' LIPO='${HOST_TOOLPREFIX}-lipo' NM='${HOST_TOOLPREFIX}-nm' OBJCOPY='${HOST_TOOLPREFIX}-objcopy' OBJDUMP='${HOST_TOOLPREFIX}-objdump' RANLIB='${HOST_TOOLPREFIX}-ranlib' READELF='${HOST_TOOLPREFIX}-readelf' STRIP='${HOST_TOOLPREFIX}-strip' WINDRES='${HOST_TOOLPREFIX}-windres' WINDMC='${HOST_TOOLPREFIX}-windmc'",
+        "TARGET_TOOLS": "CC_FOR_TARGET='${TARGET_TOOLPREFIX}-gcc ${TARGET_COMPILER_FLAGS}' CXX_FOR_TARGET='${TARGET_TOOLPREFIX}-g++ ${TARGET_COMPILER_FLAGS}' GCC_FOR_TARGET='${TARGET_TOOLPREFIX}-gcc ${TARGET_COMPILER_FLAGS}' GCJ_FOR_TARGET='${TARGET_TOOLPREFIX}-gcj ${TARGET_COMPILER_FLAGS}' GFORTRAN_FOR_TARGET='${TARGET_TOOLPREFIX}-gfortran ${TARGET_COMPILER_FLAGS}' GOC_FOR_TARGET='${TARGET_TOOLPREFIX}-gccgo ${TARGET_COMPILER_FLAGS}' GDC_FOR_TARGET='${TARGET_TOOLPREFIX}-gdc ${TARGET_COMPILER_FLAGS}' AR_FOR_TARGET='${TARGET_TOOLPREFIX}-ar' AS_FOR_TARGET='${TARGET_TOOLPREFIX}-as' DLLTOOL_FOR_TARGET='${TARGET_TOOLPREFIX}-dlltool' LD_FOR_TARGET='${TARGET_TOOLPREFIX}-ld' LIPO_FOR_TARGET='${TARGET_TOOLPREFIX}-lipo' NM_FOR_TARGET='${TARGET_TOOLPREFIX}-nm' OBJCOPY_FOR_TARGET='${TARGET_TOOLPREFIX}-objcopy' OBJDUMP_FOR_TARGET='${TARGET_TOOLPREFIX}-objdump' RANLIB_FOR_TARGET='${TARGET_TOOLPREFIX}-ranlib' READELF_FOR_TARGET='${TARGET_TOOLPREFIX}-readelf' STRIP_FOR_TARGET='${TARGET_TOOLPREFIX}-strip' WINDRES_FOR_TARGET='${TARGET_TOOLPREFIX}-windres' WINDMC_FOR_TARGET='${TARGET_TOOLPREFIX}-windmc'",
+        "ALL_TOOLS": "${BUILD_TOOLS} ${HOST_TOOLS} ${TARGET_TOOLS}"
+    },
+
+    "gmp": {
+        "commands": [
+            "${CONFIGURE} ${ALL_TOOLS} --prefix=${DIR_GMP_INSTALL} --host=${HOST} --disable-shared",
+            "make -j${NUM_CPU}",
+            "make install"
+        ]
+    },
+    "mpfr": {
+        "commands": [
+            "${CONFIGURE} ${ALL_TOOLS} --prefix=${DIR_MPFR_INSTALL} --host=${HOST} --disable-shared --with-gmp=${DIR_GMP_INSTALL}",
+            "make -j${NUM_CPU}",
+            "make install"
+        ]
+    },
+    "mpc": {
+        "commands": [
+            "${CONFIGURE} ${ALL_TOOLS} --prefix=${DIR_MPC_INSTALL} --host=${HOST} --disable-shared --with-gmp=${DIR_GMP_INSTALL} --with-mpfr=${DIR_MPFR_INSTALL}",
+            "make -j${NUM_CPU}",
+            "make install"
+        ]
+    },
+
+    "gcc": {
+        "commands": [
+            "${CONFIGURE} ${ALL_TOOLS} --build=${BUILD} --host=${HOST} --target=${TARGET} --prefix=${DIR_TOOLCHAIN} --with-mpfr=${DIR_MPFR_INSTALL} --with-gmp=${DIR_GMP_INSTALL} --with-mpc=${DIR_MPC_INSTALL} --with-pkgversion=${PKGVERSION} --without-cloog --without-isl --disable-nls --enable-languages=c,c++,d --enable-checking=release --enable-__cxa_atexit --enable-threads=posix ${BUGURL} --disable-bootstrap --enable-lto --with-float=soft",
+            "make -j${NUM_CPU}",
+            "make install "
+        ]
+    },
+
+    "cleanup": {
+        "commands": [
+            "if [ -e bin/gcc ]; then ln -s gcc bin/cc; fi;",
+            "if [ -e bin/gcc.exe ]; then ln -s gcc.exe bin/cc.exe; fi;",
+            "if [ -e bin/${TARGET}-gcc ]; then ln -s ${TARGET}-gcc bin/${TARGET}-cc; fi;",
+            "if [ -e bin/${TARGET}-gcc.exe ]; then ln -s ${TARGET}-gcc.exe bin/${TARGET}-cc.exe; fi;"
+        ]
+    }
+}

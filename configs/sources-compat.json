@@ -1,0 +1,9 @@
+{
+    "sources":
+    {
+        "binutils": {
+            "file": "binutils-2.22.tar.bz2",
+            "md5": "ee0f10756c84979622b992a4a61ea3f5"
+        }
+    }
+}

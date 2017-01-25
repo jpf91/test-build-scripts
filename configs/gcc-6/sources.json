@@ -1,0 +1,10 @@
+{
+    "sources":
+    {
+        "gcc": {
+            "suburl": "releases/gcc-6.3.0/gcc-6.3.0.tar.bz2",
+            "file": "gcc-6.3.0.tar.bz2",
+            "md5": "677a7623c7ef6ab99881bc4e048debb6"
+        }
+    }
+}

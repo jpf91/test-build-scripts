@@ -1,0 +1,33 @@
+{
+    "sources":
+    {
+        "gmp": {
+            "file": "gmp-6.1.1.tar.xz",
+            "md5": "e70e183609244a332d80529e7e155a35"
+        },
+        "mpfr": {
+            "file": "mpfr-3.1.5.tar.xz",
+            "md5": "c4ac246cf9795a4491e7766002cd528f"
+        },
+        "mpc": {
+            "file": "mpc-1.0.3.tar.gz",
+            "md5": "d6a1d5f8ddea3abd2cc3e98f58352d26"
+        },
+        "linux": {
+            "file": "linux-4.4.23.tar.xz",
+            "md5": "39c3e2090931e83b7dd3438e7fb276d4"
+        },
+        "glibc": {
+            "file": "glibc-2.13.tar.xz",
+            "md5": "cc5d8b1b994fb3b870222565c79853ca"
+        },
+        "glibc_ports": {
+            "file": "glibc-ports-2.13.tar.bz2",
+            "md5": "483f37cfdd619e81d8ca9e9d713944b5"
+        },
+        "binutils": {
+            "file": "binutils-2.26.tar.bz2",
+            "md5": "64146a0faa3b411ba774f47d41de239f"
+        }
+    }
+}
