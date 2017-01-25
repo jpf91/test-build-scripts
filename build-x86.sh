@@ -1,5 +1,7 @@
 startpath=$(pwd)
 echo "Started in $startpath"
+ls -la
+whoami
 
 cd /home/build
 mount nfs
