@@ -10,8 +10,6 @@ ls -la ${startpath}/buildscripts/bin
 cd /home/build
 mount nfs
 
-apt-get update -y && apt-get install -y libatomic1
-
 # Setup build system
 mkdir -p ~/.config/
 cp ${scripts}/configs/gccbuild.json ~/.config/gccbuild.json
