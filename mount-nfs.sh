@@ -1,11 +1,6 @@
 #!/bin/sh
 
-whoami
-startpath=$(pwd)
-echo "Started in $startpath"
-ls -la
-ls -la ${startpath}/buildscripts
-
-
-cd /home/build
-mount nfs
+mount /home/build/nfs
+mkdir -p /home/build/nfs/download
+ln -s /home/build/nfs/download /home/build/tmp/download
+ln -s ${PWD}/gdc /home/build/tmp/GDC
