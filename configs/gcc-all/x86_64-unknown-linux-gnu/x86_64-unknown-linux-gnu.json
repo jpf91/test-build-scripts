@@ -2,7 +2,15 @@
     "imports": [
         "../../mirrors.json",
         "../../sources.json",
-        "../../sources-compat.json",
         "../base/x86_64-unknown-linux-gnu-multilib.json"
-    ]
+    ],
+    "build": {
+        "type": "native",
+        "all": {
+            "host": "x86_64-unknown-linux-gnu",
+            "target": "x86_64-unknown-linux-gnu",
+            "targetStrip": "x86_64_host-unknown-linux-gnu-strip",
+            "hostStrip": "x86_64_host-unknown-linux-gnu-strip"
+        }
+    }
 }

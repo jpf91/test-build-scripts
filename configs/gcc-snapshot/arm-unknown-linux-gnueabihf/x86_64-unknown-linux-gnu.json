@@ -1,0 +1,6 @@
+{
+    "imports": [
+        "../../gcc-all/arm-unknown-linux-gnueabihf/x86_64-unknown-linux-gnu.json",
+        "../sources.json"
+    ]
+}

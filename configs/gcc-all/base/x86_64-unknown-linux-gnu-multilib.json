@@ -1,9 +1,4 @@
 {
-    "host": "x86_64-unknown-linux-gnu",
-    "target": "x86_64-unknown-linux-gnu",
-    "arch": "x86",
-    "sysroot_prefix": "/usr",
-
     "constants": {
         "all": {
             "BUGURL": "--with-bugurl=https://bugzilla.gdcproject.org",
@@ -24,15 +19,13 @@
             "ALL_TOOLS": "${BUILD_TOOLS} ${HOST_TOOLS} ${TARGET_TOOLS}"
         },
         "native": {
-            "NATIVE_CROSS_SYSROOT": "/home/build/share/host-toolchains/x86_64-unknown-linux-gnu/sysroot/",
+            "NATIVE_CROSS_SYSROOT": "/home/build/host-toolchains/x86_64-unknown-linux-gnu/sysroot/",
             "SYSROOT_FLAGS": "--with-build-sysroot=${NATIVE_CROSS_SYSROOT}",
             "SYSROOT_BINUTILS_FLAGS": "",
             "HOST_TOOLS": "",
             "TARGET_TOOLS": ""
         },
         "cross": {
-            "BOOTSTRAP_LN_32": "ln -vs libgcc.a `x86_64-unknown-linux-gnu-gcc -m32 -print-libgcc-file-name | sed 's/libgcc/&_eh/'`",
-            "BOOTSTRAP_LN_64": "ln -vs libgcc.a `x86_64-unknown-linux-gnu-gcc -print-libgcc-file-name | sed 's/libgcc/&_eh/'`",
             "MAKE_LIB_DIR": "mkdir -p ${DIR_SYSROOT}/usr/lib32 ${DIR_SYSROOT}/usr/lib ${DIR_SYSROOT}/lib",
             "SYSROOT_FLAGS": "--with-sysroot=${DIR_SYSROOT} --with-native-system-header-dir=/usr/include",
             "SYSROOT_BINUTILS_FLAGS": "--with-sysroot=${DIR_SYSROOT}"
@@ -46,6 +39,9 @@
 
     "build": {
         "all": {
+            "arch": "x86",
+            "sysrootPrefix": "usr",
+            "patchDirs": ["../../patches"],
             "gmp": {
                 "commands": [
                     "${CONFIGURE} ${ALL_TOOLS} --prefix=${DIR_GMP_INSTALL} --host=${HOST} --disable-shared",
@@ -70,52 +66,46 @@
             "linux": {
                 "commands": [
                     "make HOSTCC='x86_64_build-unknown-linux-gnu-gcc' ARCH=${ARCH} headers_check",
-                    "make HOSTCC='x86_64_build-unknown-linux-gnu-gcc' ARCH=${ARCH} INSTALL_HDR_PATH=${DIR_SYSROOT_WITH_PREFIX} headers_install"
-                ],
-                "variants": ["cross", "canadian"]
+                    "make HOSTCC='x86_64_build-unknown-linux-gnu-gcc' ARCH=${ARCH} INSTALL_HDR_PATH=${DIR_SYSROOT_AND_PREFIX} headers_install"
+                ]
             },
             "binutils": {
                 "commands": [
                     "${CONFIGURE} ${ALL_TOOLS} --build=${BUILD} --host=${HOST} --target=${TARGET} CXXFLAGS='-std=gnu++98' --prefix=${DIR_TOOLCHAIN} ${SYSROOT_BINUTILS_FLAGS} --disable-nls --disable-static --enable-64-bit-bfd --disable-werror --enable-plugins --enable-gold --with-lib-path=\"=/lib32:=/usr/lib32:=/lib64:=/usr/lib64\"",
                     "make -j${NUM_CPU}",
                     "make install"
-                ],
-                "variants": ["cross", "canadian"]
+                ]
             },
-            "gcc_stage1": {
-                "commands": [
-                    "mkdir -p ${DIR_SYSROOT_STAGE1}/usr/lib32 ${DIR_SYSROOT}/usr/lib ${DIR_SYSROOT}/lib",
-                    "${CONFIGURE} ${ALL_TOOLS} --build=${BUILD} --host=${HOST} --target=${TARGET} --prefix=${DIR_TOOLCHAIN_STAGE1} --with-sysroot=${DIR_SYSROOT_STAGE1} --with-native-system-header-dir=/usr/include --with-mpfr=${DIR_MPFR_INSTALL} --with-gmp=${DIR_GMP_INSTALL} --with-mpc=${DIR_MPC_INSTALL} --disable-nls --disable-shared --without-cloog --without-isl --without-headers --with-newlib --disable-decimal-float --disable-libgomp --disable-libmudflap --disable-libssp --disable-libatomic --disable-libitm --disable-libsanitizer --disable-libquadmath --disable-threads --enable-languages=c --enable-checking=release --disable-bootstrap ${MULTILIB_FLAGS} --disable-werror",
+            "gcc": {
+                "stage1": [
+                    "mkdir -p ${DIR_SYSROOT}/usr/lib32 ${DIR_SYSROOT}/usr/lib ${DIR_SYSROOT}/lib",
+                    "${CONFIGURE} ${ALL_TOOLS} --build=${BUILD} --host=${HOST} --target=${TARGET} --prefix=${DIR_TOOLCHAIN} --with-sysroot=${DIR_SYSROOT} --with-native-system-header-dir=/usr/include --with-mpfr=${DIR_MPFR_INSTALL} --with-gmp=${DIR_GMP_INSTALL} --with-mpc=${DIR_MPC_INSTALL} --disable-nls --disable-shared --without-cloog --without-isl --without-headers --with-newlib --disable-decimal-float --disable-libgomp --disable-libmudflap --disable-libssp --disable-libatomic --disable-libitm --disable-libsanitizer --disable-libquadmath --disable-threads --enable-languages=c --enable-checking=release --disable-bootstrap ${MULTILIB_FLAGS} --disable-werror",
                     "make -j${NUM_CPU} all-gcc all-target-libgcc",
                     "make install-gcc install-target-libgcc"
                 ],
-                "variants": ["cross"]
-            },
-            "glibc": {
-                "multi_commands": [
-                    [
-                     "${BOOTSTRAP_LN_32}",
-                     "echo 'slibdir=${DIR_SYSROOT_PREFIX}/lib32' > configparms",
-                     "echo 'rtlddir=${DIR_SYSROOT_PREFIX}/lib32' >> configparms",
-                     "${CONFIGURE} BUILD_CC='x86_64_build-unknown-linux-gnu-gcc' CC=\"${TARGET_GCC} -m32\" --prefix=${DIR_SYSROOT_PREFIX} --libdir=${DIR_SYSROOT_PREFIX}/lib32 --with-headers=${DIR_SYSROOT_WITH_PREFIX}/include --disable-profile --enable-kernel=2.6.32 i686-linux-gnu libc_cv_ssp=no libc_cv_ssp_strong=no cross_compiling=yes libc_cv_forced_unwind=yes libc_cv_c_cleanup=yes",
-                     "make -j${NUM_CPU}",
-                     "make install_root=${DIR_SYSROOT} install"],
-                    [
-                     "${BOOTSTRAP_LN_64}",
-                     "echo 'slibdir=${DIR_SYSROOT_PREFIX}/lib64' > configparms",
-                     "echo 'rtlddir=${DIR_SYSROOT_PREFIX}/lib64' >> configparms",
-                     "${CONFIGURE} BUILD_CC='x86_64_build-unknown-linux-gnu-gcc' CC=\"${TARGET_GCC}\" --prefix=${DIR_SYSROOT_PREFIX} --libdir=${DIR_SYSROOT_PREFIX}/lib64 --with-headers=${DIR_SYSROOT_WITH_PREFIX}/include --disable-profile --enable-kernel=2.6.32 libc_cv_ssp=no libc_cv_ssp_strong=no cross_compiling=yes libc_cv_forced_unwind=yes libc_cv_c_cleanup=yes",
-                     "make -j${NUM_CPU}",
-                     "make install_root=${DIR_SYSROOT} install"]
-                ],
-                "variants": ["cross", "canadian"]
-            },
-            "gcc": {
                 "commands": [
                     "${MAKE_LIB_DIR}",
                     "${CONFIGURE} ${ALL_TOOLS} --build=${BUILD} --host=${HOST} --target=${TARGET} --prefix=${DIR_TOOLCHAIN} ${SYSROOT_FLAGS} --with-mpfr=${DIR_MPFR_INSTALL} --with-gmp=${DIR_GMP_INSTALL} --with-mpc=${DIR_MPC_INSTALL} --with-pkgversion=${PKGVERSION} --without-cloog --without-isl --disable-nls --enable-languages=c,c++,d --enable-checking=release --enable-__cxa_atexit --enable-threads=posix ${MULTILIB_FLAGS} ${BUGURL} --disable-bootstrap --enable-lto --disable-werror --without-libatomic",
                     "make -j${NUM_CPU}",
                     "make install"
+                ]
+            },
+            "glibc": {
+                "multiCommands": [
+                    [
+                     "${BOOTSTRAP_LN_32}",
+                     "echo 'slibdir=/${DIR_SYSROOT_PREFIX}/lib32' > configparms",
+                     "echo 'rtlddir=/${DIR_SYSROOT_PREFIX}/lib32' >> configparms",
+                     "${CONFIGURE} BUILD_CC='x86_64_build-unknown-linux-gnu-gcc' CC=\"${TARGET_GCC} -m32\" --prefix=/${DIR_SYSROOT_PREFIX} --libdir=/${DIR_SYSROOT_PREFIX}/lib32 --with-headers=${DIR_SYSROOT_AND_PREFIX}/include --disable-profile --enable-kernel=2.6.32 i686-linux-gnu libc_cv_ssp=no libc_cv_ssp_strong=no cross_compiling=yes libc_cv_forced_unwind=yes libc_cv_c_cleanup=yes",
+                     "make -j${NUM_CPU}",
+                     "make install_root=${DIR_SYSROOT} install"],
+                    [
+                     "${BOOTSTRAP_LN_64}",
+                     "echo 'slibdir=/${DIR_SYSROOT_PREFIX}/lib64' > configparms",
+                     "echo 'rtlddir=/${DIR_SYSROOT_PREFIX}/lib64' >> configparms",
+                     "${CONFIGURE} BUILD_CC='x86_64_build-unknown-linux-gnu-gcc' CC=\"${TARGET_GCC}\" --prefix=/${DIR_SYSROOT_PREFIX} --libdir=/${DIR_SYSROOT_PREFIX}/lib64 --with-headers=${DIR_SYSROOT_AND_PREFIX}/include --disable-profile --enable-kernel=2.6.32 libc_cv_ssp=no libc_cv_ssp_strong=no cross_compiling=yes libc_cv_forced_unwind=yes libc_cv_c_cleanup=yes",
+                     "make -j${NUM_CPU}",
+                     "make install_root=${DIR_SYSROOT} install"]
                 ]
             },
 

@@ -1,0 +1,50 @@
+diff -ur glibc-2.14.orig/configure glibc-2.14/configure
+--- glibc-2.14.orig/configure	2015-06-11 20:17:58.290961057 +0200
++++ glibc-2.14/configure	2015-06-11 20:18:23.214930052 +0200
+@@ -4939,7 +4939,7 @@
+   ac_prog_version=`$CC -v 2>&1 | sed -n 's/^.*version \([egcygnustpi-]*[0-9.]*\).*$/\1/p'`
+   case $ac_prog_version in
+     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
+-    3.4* | 4.[0-9]* )
++    3.4* | 4.[0-9]* | [5-9].* )
+        ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
+     *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
+ 
+diff -ur glibc-2.14.orig/configure.in glibc-2.14/configure.in
+--- glibc-2.14.orig/configure.in	2015-06-11 20:17:58.290961057 +0200
++++ glibc-2.14/configure.in	2015-06-11 20:18:23.218263470 +0200
+@@ -1026,7 +1026,7 @@
+ # These programs are version sensitive.
+ AC_CHECK_TOOL_PREFIX
+ AC_CHECK_PROG_VER(CC, ${ac_tool_prefix}gcc ${ac_tool_prefix}cc, -v,
+-  [version \([egcygnustpi-]*[0-9.]*\)], [3.4* | 4.[0-9]* ],
++  [version \([egcygnustpi-]*[0-9.]*\)], [3.4* | 4.[0-9]* | [5-9].* ],
+   critic_missing="$critic_missing gcc")
+ AC_CHECK_PROG_VER(MAKE, gnumake gmake make, --version,
+   [GNU Make[^0-9]*\([0-9][0-9.]*\)],
+diff -ur glibc-2.14.orig/nptl/sysdeps/pthread/unwind-forcedunwind.c glibc-2.14/nptl/sysdeps/pthread/unwind-forcedunwind.c
+--- glibc-2.14.orig/nptl/sysdeps/pthread/unwind-forcedunwind.c	2015-06-11 20:17:58.404297281 +0200
++++ glibc-2.14/nptl/sysdeps/pthread/unwind-forcedunwind.c	2015-06-11 20:18:40.945382250 +0200
+@@ -25,7 +25,8 @@
+ #include <libgcc_s.h>
+ 
+ static void *libgcc_s_handle;
+-static void (*libgcc_s_resume) (struct _Unwind_Exception *exc);
++static void (*libgcc_s_resume) (struct _Unwind_Exception *exc)
++  __attribute_used__;
+ static _Unwind_Reason_Code (*libgcc_s_personality)
+   (int, _Unwind_Action, _Unwind_Exception_Class, struct _Unwind_Exception *,
+    struct _Unwind_Context *);
+diff -ur glibc-2.14.orig/sysdeps/gnu/unwind-resume.c glibc-2.14/sysdeps/gnu/unwind-resume.c
+--- glibc-2.14.orig/sysdeps/gnu/unwind-resume.c	2015-06-11 20:17:58.450965138 +0200
++++ glibc-2.14/sysdeps/gnu/unwind-resume.c	2015-06-11 20:18:40.945382250 +0200
+@@ -22,7 +22,8 @@
+ #include <unwind.h>
+ #include <libgcc_s.h>
+ 
+-static void (*libgcc_s_resume) (struct _Unwind_Exception *exc);
++static void (*libgcc_s_resume) (struct _Unwind_Exception *exc)
++  __attribute_used__;
+ static _Unwind_Reason_Code (*libgcc_s_personality)
+   (int, _Unwind_Action, _Unwind_Exception_Class, struct _Unwind_Exception *,
+    struct _Unwind_Context *);

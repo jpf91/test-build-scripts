@@ -1,0 +1,6 @@
+{
+    "imports": [
+        "../../gcc-all/i686-w64-mingw32/x86_64-unknown-linux-gnu.json",
+        "../sources.json"
+    ]
+}

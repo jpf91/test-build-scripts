@@ -1,0 +1,10 @@
+{
+    "sources":
+    {
+        "gcc": {
+            "suburl": "snapshots/7-20161127/gcc-7-20161127.tar.bz2",
+            "file": "gcc-7-20161127.tar.bz2",
+            "md5": "827c22d0a64a16ccd9e1b3f5ce31690e"
+        }
+    }
+}

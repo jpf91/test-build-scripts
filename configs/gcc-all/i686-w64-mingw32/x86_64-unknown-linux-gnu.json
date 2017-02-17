@@ -1,0 +1,20 @@
+{
+    "imports": [
+        "../../mirrors.json",
+        "../../sources.json",
+        "../base/x86_64-unknown-linux-gnu-multilib.json"
+    ],
+    "constants": {
+        "all": {
+            "HOST_TOOLPREFIX": "i686_host-w64-mingw32"
+        }
+    },
+    "build": {
+        "type": "canadian",
+        "all": {
+            "host": "i686-w64-mingw32",
+            "target": "x86_64-unknown-linux-gnu",
+            "hostStrip": "i686_host-w64-mingw32-strip"
+        }
+    }
+}
