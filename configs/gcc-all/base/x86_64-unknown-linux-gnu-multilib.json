@@ -28,7 +28,9 @@
         "cross": {
             "MAKE_LIB_DIR": "mkdir -p ${DIR_SYSROOT}/usr/lib32 ${DIR_SYSROOT}/usr/lib ${DIR_SYSROOT}/lib",
             "SYSROOT_FLAGS": "--with-sysroot=${DIR_SYSROOT} --with-native-system-header-dir=/usr/include",
-            "SYSROOT_BINUTILS_FLAGS": "--with-sysroot=${DIR_SYSROOT}"
+            "SYSROOT_BINUTILS_FLAGS": "--with-sysroot=${DIR_SYSROOT}",
+            "BOOTSTRAP_LN_32": "ln -vs libgcc.a `x86_64-unknown-linux-gnu-gcc -m32 -print-libgcc-file-name | sed 's/libgcc/&_eh/'`",
+            "BOOTSTRAP_LN_64": "ln -vs libgcc.a `x86_64-unknown-linux-gnu-gcc -print-libgcc-file-name | sed 's/libgcc/&_eh/'`"
         },
         "canadian": {
             "MAKE_LIB_DIR": "mkdir -p ${DIR_SYSROOT}/usr/lib32 ${DIR_SYSROOT}/usr/lib ${DIR_SYSROOT}/lib",
