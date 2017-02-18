@@ -1,5 +1,7 @@
 #!/bin/sh
 
+ls -la
+
 mount /home/build/nfs
 mkdir -p /home/build/nfs/download
 mkdir -p /home/build/tmp/

@@ -4,6 +4,8 @@ CONF_FILE=$1
 set -e
 
 export PATH=$PATH:/home/build/host-toolchains/x86_64-unknown-linux-gnu/xbin:/home/build/host-toolchains/arm-unknown-linux-gnueabihf/xbin:/home/build/host-toolchains/i686-w64-mingw32/xbin:/home/build/host-toolchains/x86_64-w64-mingw32/xbin
+# TODO: properly configure
+export PATH=$PATH:/home/build/nfs/x86_64-unknown-linux-gnu/bin
 
 rm tmp/commonToolchain/ tmp/hostlib/ tmp/install/ tmp/patch/ tmp/result/ tmp/build/ -rf
 mkdir -p /home/build/tmp/download /home/build/tmp/extract /home/build/tmp/build /home/build/tmp/install
