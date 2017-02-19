@@ -4,6 +4,11 @@
         "../../sources.json",
         "../base/arm-unknown-linux-gnueabihf-multilib.json"
     ],
+    "constants": {
+        "all": {
+            "HOST_TOOLPREFIX": "x86_64_host-unknown-linux-gnu"
+        }
+    },
     "build": {
         "type": "cross",
         "all": {
