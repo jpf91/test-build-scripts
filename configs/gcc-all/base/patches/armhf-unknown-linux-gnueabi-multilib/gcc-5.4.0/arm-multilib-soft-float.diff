@@ -1,0 +1,16 @@
+# Patch from gcc-6-source (6.2.0-5ubuntu11)
+--- a/gcc/config/arm/t-linux-eabi
++++ b/gcc/config/arm/t-linux-eabi
+@@ -24,6 +24,12 @@
+ MULTILIB_OPTIONS	=
+ MULTILIB_DIRNAMES	=
+ 
++MULTILIB_OPTIONS	= mfloat-abi=hard/mfloat-abi=softfp/mfloat-abi=soft
++MULTILIB_DIRNAMES	= . sf soft-float
++MULTILIB_EXCEPTIONS	=
++MULTILIB_MATCHES	= mfloat-abi?hard=mhard-float mfloat-abi?soft=msoft-float
++MULTILIB_OSDIRNAMES	= ../../lib/arm-linux-gnueabihf ../../lib/arm-linux-gnueabi soft-float
++
+ #MULTILIB_OPTIONS     += mcpu=fa606te/mcpu=fa626te/mcpu=fmp626/mcpu=fa726te
+ #MULTILIB_DIRNAMES    += fa606te fa626te fmp626 fa726te
+ #MULTILIB_EXCEPTIONS  += *mthumb/*mcpu=fa606te *mthumb/*mcpu=fa626te *mthumb/*mcpu=fmp626 *mthumb/*mcpu=fa726te*

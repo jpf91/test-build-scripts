@@ -1,0 +1,20 @@
+{
+    "imports": [
+        "../../mirrors.json",
+        "../../sources.json",
+        "../base/arm-unknown-linux-gnueabihf-multilib.json"
+    ],
+    "constants": {
+        "all": {
+            "HOST_TOOLPREFIX": "x86_64_host-w64-mingw32"
+        }
+    },
+    "build": {
+        "type": "canadian",
+        "all": {
+            "host": "x86_64-w64-mingw32",
+            "target": "arm-unknown-linux-gnueabihf",
+            "hostStrip": "x86_64_host-w64-mingw32-strip"
+        }
+    }
+}

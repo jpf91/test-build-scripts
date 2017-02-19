@@ -1,0 +1,14 @@
+{
+    "imports": [
+        "../../mirrors.json",
+        "../../sources.json",
+        "../base/arm-unknown-linux-gnueabihf-multilib.json"
+    ],
+    "build": {
+        "type": "cross",
+        "all": {
+            "host": "x86_64-unknown-linux-gnu",
+            "target": "arm-unknown-linux-gnueabihf"
+        }
+    }
+}
