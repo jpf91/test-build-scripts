@@ -2,9 +2,9 @@
     "sources":
     {
         "gcc": {
-            "suburl": "snapshots/7-20161127/gcc-7-20161127.tar.bz2",
-            "file": "gcc-7-20161127.tar.bz2",
-            "md5": "827c22d0a64a16ccd9e1b3f5ce31690e"
+            "suburl": "snapshots/7-20170212/gcc-7-20170212.tar.bz2",
+            "file": "gcc-7-20170212.tar.bz2",
+            "md5": "0074d94da90aa234fb0c7b689416d665"
         }
     }
 }
