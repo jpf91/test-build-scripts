@@ -29,7 +29,7 @@ gcc-build-script --toolchainConfig $CONF_FILE finalCompiler
 gcc-build-script --toolchainConfig $CONF_FILE cleanup
 
 
-rm -rf /home/build/nfs/x86_64-unknown-linux-gnu
-time cp --no-preserve=ownership -R /home/build/tmp/result /home/build/nfs/x86_64-unknown-linux-gnu
+rm -rf /home/build/nfs/$2
+time cp --no-preserve=ownership -R /home/build/tmp/result /home/build/nfs/$2
 
 date > id.txt
