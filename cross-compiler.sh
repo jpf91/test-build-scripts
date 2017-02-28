@@ -32,11 +32,4 @@ gcc-build-script --toolchainConfig $CONF_FILE cleanup
 rm -rf /home/build/nfs/x86_64-unknown-linux-gnu
 time cp --no-preserve=ownership -R /home/build/tmp/result /home/build/nfs/x86_64-unknown-linux-gnu
 
-git config --global user.email "you@example.com"
-git config --global user.name "Your Name"
-
-git clone toolchain toolchain2
-cd toolchain2
 date > id.txt
-git add .
-git commit -m "Update built toolchain"
