@@ -32,4 +32,4 @@ gcc-build-script --toolchainConfig $CONF_FILE cleanup
 rm -rf /home/build/nfs/$2
 time cp --no-preserve=ownership -R /home/build/tmp/result /home/build/nfs/$2
 
-date > id.txt
+date > toolchain/id
